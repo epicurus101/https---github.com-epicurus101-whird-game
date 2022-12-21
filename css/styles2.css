@@ -1,0 +1,69 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+
+  @font-face {
+    font-family: customWebFont;
+    src: url(../fonts/PublicSans-Black.woff2);
+    font-weight:bold;
+  }
+
+  @font-face {
+    font-family: customWebFont;
+    src: url(../fonts/PublicSans-Medium.woff2);
+    font-weight:normal;
+  }
+  
+  html,
+  body {
+    height: 100%;
+    font-family: customWebFont;
+    color: var(--offWhite)
+  }
+
+  .break {
+    flex-basis: 100%;
+    height: 0;
+  }
+
+  :root {
+    --green: rgb(83, 141, 78);
+    --yellow: rgb(181, 159, 59);
+    --highlight: #D68157;
+    --darkGrey: rgb(58, 58, 60);
+    --offWhite: rgb(215, 218, 220);
+    --darkBlue: rgb(50, 50, 70);
+    --midGrey: rgb(129, 131, 132);
+    --transparent: rgba(0,0,0,0);
+    --black: rgb(0,0,0);
+    --orange: rgb(255,165,0);
+
+  }
+  
+  #container {
+    display: flex;
+    background-color: var(--black);
+    height: 100%;
+    align-items: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #game {
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-size-adjust: auto;
+  }
+  
