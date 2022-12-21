@@ -79,7 +79,7 @@
   #spinner-container {
     display: grid;
     z-index: 0;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     justify-content: center;
     align-content:flex-start;
     flex-grow: 1;
