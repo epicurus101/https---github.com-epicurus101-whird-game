@@ -1,152 +1,147 @@
 * {
-    margin: 0;
-    padding: 0;
-  }
+  margin: 0;
+  padding: 0;
+}
 
-  @font-face {
-    font-family: customWebFont;
-    src: url(../fonts/PublicSans-Black.woff2);
-    font-weight:bold;
-  }
+@font-face {
+  font-family: customWebFont;
+  src: url(../fonts/PublicSans-Black.woff2);
+  font-weight: bold;
+}
 
-  @font-face {
-    font-family: customWebFont;
-    src: url(../fonts/PublicSans-Medium.woff2);
-    font-weight:normal;
-  }
-  
-  html,
-  body {
-    height: 100%;
-    font-family: customWebFont;
-  }
+@font-face {
+  font-family: customWebFont;
+  src: url(../fonts/PublicSans-Medium.woff2);
+  font-weight: normal;
+}
 
-  .break {
-    flex-basis: 100%;
-    height: 0;
-  }
+html,
+body {
+  height: 100%;
+  font-family: customWebFont;
+}
 
-  :root {
-    --green: rgb(83, 141, 78);
-    --yellow: rgb(181, 159, 59);
-    --highlight: #D68157;
-    --darkGrey: rgb(58, 58, 60);
-    --offWhite: rgb(215, 218, 220);
-    --darkBlue: rgb(50, 50, 70);
-    --midGrey: rgb(129, 131, 132);
-    --transparent: rgba(0,0,0,0);
-    --black: rgb(0,0,0);
-    --orange: rgb(255,165,0);
-    --lightGrey: rgb(200,201,202);
-    --height: 100;
-    --width: 100;
-    --squareHeight: 100;
-    --squareWidth: 100;
-    --keyHeightAdjust: 0;
-    --reviewHover: 1.2;
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
-  }
-  
-  #container {
-    display: flex;
-    background-color: var(--black);
-    height: 100%;
-    align-items: center;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  #game {
-    width: 100%;
-    max-width: 500px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    text-size-adjust: auto;
-    color: var(--offWhite);
-  }
-  
-  #spinner-container {
-    display: grid;
-    z-index: 0;
-    grid-template-columns: repeat(5, 1fr);
-    justify-content: center;
-    align-content:flex-start;
-    flex-grow: 1;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-  
-  .spinner {
-    border: 2px solid var(--darkGrey);
-    z-index: 1;
-    border-radius: 3px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    box-sizing: border-box;
-    position: relative
-  }
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
 
-  #keyboard-container {
-    height: calc(150px + var(--keyHeightAdjust) * 3px);
-  }
-  
-  .keyboard-row {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin: 0px auto 4px;
-    touch-action: manipulation;
-  }
-  
-  .keyboard-row button {
-    font-family: inherit;
-    font-weight: bold;
-    font-size: calc(var(--squareWidth) * 0.15px);
-    padding: 0px;
-    border: 1px solid var(--midGrey);
-    height: calc(46px + var(--keyHeightAdjust) * 1px);
-    cursor: pointer;
-    background-color: var(--midGrey);
-    color: var(--offWhite);
-    flex-grow: 1;
-    width: 0;
-    text-transform: uppercase;
-    margin-right: 4px;
-    border-radius: 4px;
-    user-select: none;
-  }
-  
-  .keyboard-row button.wide-button {
-    flex-grow: 1.5;
-  }
+:root {
+  --green: rgb(83, 141, 78);
+  --yellow: rgb(181, 159, 59);
+  --highlight: #D68157;
+  --darkGrey: rgb(58, 58, 60);
+  --offWhite: rgb(215, 218, 220);
+  --darkBlue: rgb(50, 50, 70);
+  --midGrey: rgb(129, 131, 132);
+  --transparent: rgba(0, 0, 0, 0);
+  --black: rgb(0, 0, 0);
+  --orange: rgb(255, 165, 0);
+  --lightGrey: rgb(200, 201, 202);
+  --spinner-width: 100;
+  --spinner-height: 100;
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
+}
 
-  .spacer-quarter {
-    flex-grow: 0.25;
-  }
-  
-  .spacer-half {
-    flex-grow: 0.5;
-  }
+#container {
+  display: flex;
+  background-color: var(--black);
+  height: 100%;
+  align-items: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-  .spacer-full {
-    flex-grow: 1.0;
-  }
+#game {
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
-  .prevent-select {
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
-  }
- 
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  text-size-adjust: auto;
+  color: var(--offWhite);
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: row;
+
+}
+
+.spinner-frame {
+  position: relative;
+  border: 1px solid black;
+  width: 40px;
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.spinner-frame .box {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 78px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  background-color: rgba(100,100,100,0.2);
+}
+
+.spinner-frame .selected {
+  border-width: 2px;
+  background-color: red;
+}
+
+.spinner {
+  align-items: center;
+}
+
+.duration-animation {
+  transition: transform 1s ease-in-out;
+  /* transform: translateY(-40px); */
+}
+
+.instant-animation {
+  transition: transform 0s ease-in-out;
+  /* transform: translateY(-80px); */
+}
+
+
+.spinner span {
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 20px;
+  color: black;
+  font-weight: normal;
+}
+
+.prevent-select {
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
+}

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,57 +12,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/contents.js"></script>
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
+
 <body>
-    <div id="container">
-        <div id="game">
-            <header>
-                <h1>Whird</h1>
-            </header>
-            <div id="spinner-container"></div>
-            <div id="keyboard-container" class="prevent-select">
-                <div class="keyboard-row" class="prevent-select">
-                    <button data-key="Q">Q</button>
-                    <button data-key="W">W</button>
-                    <button data-key="E">E</button>
-                    <button data-key="R">R</button>
-                    <button data-key="T">T</button>
-                    <button data-key="Y">Y</button>
-                    <button data-key="U">U</button>
-                    <button data-key="I">I</button>
-                    <button data-key="O">O</button>
-                    <button data-key="P">P</button>
-                </div>
-                <div class="keyboard-row" class="prevent-select">
-                    <div class="spacer-half"></div>
-                    <button data-key="A">A</button>
-                    <button data-key="S">S</button>
-                    <button data-key="D">D</button>
-                    <button data-key="F">F</button>
-                    <button data-key="G">G</button>
-                    <button data-key="H">H</button>
-                    <button data-key="J">J</button>
-                    <button data-key="K">K</button>
-                    <button data-key="L">L</button>
-                    <div class="spacer-half"></div>
-                </div>
-                <div class="keyboard-row" class="prevent-select">
-                    <button data-key="ENTER" class="wide-button">ENTER</button>
-                    <button data-key="Z">Z</button>
-                    <button data-key="X">X</button>
-                    <button data-key="C">C</button>
-                    <button data-key="V">V</button>
-                    <button data-key="B">B</button>
-                    <button data-key="N">N</button>
-                    <button data-key="M">M</button>
-                    <button data-key="DEL" class="wide-button">DEL</button>
-                </div>
+    <div class="spinner-container">
+        <div class="spinner-frame">
+            <span class="box"></span>
+            <div id="spinner1" data-index=0 class="spinner">
+            </div>
+        </div>
+        <div class="spinner-frame">
+            <span class="box"></span>
+            <div id="spinner2" data-index=1 class="spinner">
+            </div>
+        </div>
+        <div class="spinner-frame">
+            <span class="box"></span>
+            <div id="spinner3" data-index=2 class="spinner">
+            </div>
+        </div>
+        <div class="spinner-frame">
+            <span class="box"></span>
+            <div id="spinner4" data-index=3 class="spinner">
+            </div>
+        </div>
+        <div class="spinner-frame">
+            <span class="box"></span>
+            <div id="spinner5" data-index=4 class="spinner">
             </div>
         </div>
     </div>
 </body>
+
 </html>
