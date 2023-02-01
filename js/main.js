@@ -1,87 +1,124 @@
 import { uColours, keyboard, dictionary, derivatives } from './contents.js';
+import { Spinner } from './spinner.js';
 
-Array.prototype.random = function () {
-    return this[Math.floor((Math.random()*this.length))];
+
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
   }
+  
 
 document.addEventListener("DOMContentLoaded", () => {
 
     initialisation()
 
+    var current = 0
+    var spinners = []
 
-    var controlLetters = [["A","B","C","D","E"],["F","G","H","I","J"],["K","L","M","N","O"],["P","Q","R","S","T"],["U","V","W","X","Y"]]
+    for (let i = 0; i < 5; i++) {
+        const element = new Spinner(i)
+        spinners.push(element)    
+    }
 
-    const spinners = document.querySelectorAll(".spinner");
+    populateControl()
 
-    for (let i = 0; i < spinners.length; i++) {
-        const spinner = spinners[i];
-        const letters = controlLetters[i]
-        for (let y = 0; y < 9; y++) {
-            let newSpan = document.createElement("span")
-            let num = (y+3) % 5
-            newSpan.textContent = controlLetters[i][num]
-            spinner.appendChild(newSpan)
+    highlightCurrent()
+
+    function getFiveUniqueWords() {
+        var lines = []
+        do {
+            let newWord = dictionary.words.random()
+            if (!checkMatchingLetters(newWord, lines)) {
+                lines.push(newWord)
+            }
+        } while (lines.length < 5)
+        return lines
+    }
+
+    function checkMatchingLetters(word, array) {
+        for (let i = 0; i < array.length; i++) {
+            for (let j = 0; j < word.length; j++) {
+                if (word[j] === array[i][j]) {
+                    return true
+                }
+            }
         }
-        spinner.classList.add("instant-animation")
-        spinner.style.transform = `translateY(-80px)`
+        return false;
+    }
+    
+    function populateControl(){
+
+        let puzzle = getFiveUniqueWords()
+      //  console.log(puzzle)
+        for (let i = 0; i < 5; i++) {
+            var array =[]
+            for (let j = 0; j < 5; j++) {
+                let letter = puzzle[j][i]
+                array.push(letter)
+            }
+            shuffle(array)
+            spinners[i].newLetters(array)
+        }
+
     }
 
-    let intervalId = setInterval(() => {
-        scrollLetters();
-    }, 2000);
-
-    function scrollLetters() {
-        let ind = Math.floor(Math.random() * 5);
-        let poss = [-2,-1,1,2].random()
-        console.log(poss)
-
-        const spinner = spinners[ind]
-        arrayRotate(controlLetters[ind],poss)
-        spinnerRotate(spinner,poss)
-
-    }
-
-    function transitionEndHandler(event) {
-        normalise(event.currentTarget)
-        event.currentTarget.removeEventListener("transitionend", transitionEndHandler)
-        event.currentTarget.classList.remove("duration-animation")
-        event.currentTarget.classList.add("instant-animation")
-        event.currentTarget.style.transform = `translateY(-80px)`
-    }
-
-
-    function spinnerRotate(spinner, amount) {
-        let box = spinner.parentElement.querySelector(".box")
-        box.classList.add("selected")
-
-        spinner.classList.remove("instant-animation")
-        spinner.classList.add("duration-animation")
-        spinner.style.transform = `translateY(${-80+40*amount}px)`
-        spinner.addEventListener("transitionend", (event) => transitionEndHandler(event))
-    }
-
-
-    function arrayRotate(arr, count) {
-        const len = arr.length
-        arr.push(...arr.splice(0, (-count % len + len) % len))
-    }
-
-
-
-    function normalise(spinner) {
-
-        let letters = controlLetters[spinner.dataset.index]
-        let children = Array.from(spinner.children)
-        for (let y = 0; y < 9; y++) {
-            let num = (y+3) % 5
-            children[y].textContent = letters[num]
+    function updateAllSpinners(){
+        for (let i = 0; i < spinners.length; i++) {
+            const spinner = spinners[i];
+            spinner.instantColour()
         }
     }
 
 
 
 
+    function tryKey(str){
 
+        let cSpinner = spinners[current]
+        let ind = cSpinner.letterArray.indexOf(str)
+        console.log(ind)
+        if (ind >= 0) {
+            let diff = 2-ind
+            cSpinner.animatedRotate(diff)
+            current = Math.min(current+1, 4)
+            highlightCurrent()
+        }
+        console.log(str)
+    }
+
+    function highlightCurrent() {
+        for (let i = 0; i < spinners.length; i++) {
+            const spinner = spinners[i];
+            if (i == current) {
+                spinner.highlightBox(true)
+            } else {
+                spinner.highlightBox(false)
+            }
+        }
+    }
+
+    function deleteKey(){
+        current = Math.max(current-1, 0)
+        highlightCurrent(current)
+    }
+
+    function submitWord(){
+        var string = ""
+        for (let i = 0; i < 5; i++) {
+            string += spinners[i].centreLetter()
+        }
+        console.log(string)
+        if (dictionary.words.includes(string)) {
+            for (let i = 0; i < 5; i++) {
+                spinners[i].addFound(string[i])
+            }
+            current = 0
+            highlightCurrent()
+        }
+        updateAllSpinners()
+    }
 
     async function initialisation(){
         colourConform();
@@ -97,5 +134,32 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+    document.addEventListener('keyup', function (event) {
+        let str = event.key.toUpperCase();
+        if (str == "BACKSPACE") {
+            deleteKey()
+        } else if (str == "ENTER") {
+            submitWord()
+        } else if (/^[a-zA-Z()]$/.test(str)) {
+            tryKey(str)
+        }
+    
+    })
+
+    document.addEventListener('letterKey', (e) => {
+        let letter = e.detail.letter
+        tryKey(letter)
+    })
+    
+    document.addEventListener('delete', (e) => {
+        deleteKey()
+    })
+
+    document.addEventListener('submit', (e) => {
+        submitWord()
+    })
+
 
 })
+
+
