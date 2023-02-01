@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     var current = 0
     var spinners = []
+    var guesses = 0
 
     for (let i = 0; i < 5; i++) {
         const element = new Spinner(i)
@@ -71,9 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-
-
-
     function tryKey(str){
 
         let cSpinner = spinners[current]
@@ -114,10 +112,37 @@ document.addEventListener("DOMContentLoaded", () => {
             for (let i = 0; i < 5; i++) {
                 spinners[i].addFound(string[i])
             }
-            current = 0
-            highlightCurrent()
+            guesses++
+            document.getElementById("guess-count").textContent = `Guesses: ${guesses}`
         }
+        current = 0
+        highlightCurrent()
         updateAllSpinners()
+        if (completed()) {
+            console.log(`completed with ${guesses} guesses`)
+            resetGame()
+        }
+    }
+
+    function resetGame() {
+        guesses = 0
+        document.getElementById("guess-count").textContent = "Guesses: 0"
+        populateControl()
+        updateAllSpinners()
+        for (let i = 0; i < spinners.length; i++) {
+            const spinner = spinners[i];
+            console.log(spinner.foundSet)
+        }
+    }
+
+    function completed() {
+        for (let i = 0; i < spinners.length; i++) {
+            const spinner = spinners[i];
+            if (spinner.foundSet.size < 5) {
+                return false
+            }
+        }
+        return true
     }
 
     async function initialisation(){
