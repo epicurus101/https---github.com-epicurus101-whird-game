@@ -1,5 +1,5 @@
 import { uColours, keyboard, dictionary, derivatives } from './contents.js';
-import { Spinner } from './spinner.js';
+import { Spinner } from './Spinner.js';
 
 
   function shuffle(array) {
