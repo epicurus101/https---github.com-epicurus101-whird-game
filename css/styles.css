@@ -68,6 +68,7 @@ body {
   display: flex;
   background-color: var(--black);
   height: 100%;
+  width: 100%;
   align-items: center;
   flex-direction: column;
   justify-items: center;
@@ -81,20 +82,15 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  flex-direction: column;
-  justify-items: center;
-  justify-content: space-between;
-  align-content: space-around;
+  justify-content: space-around;
 
 }
-
-
 
 .spinner-container {
   display: flex;
   flex-direction: row;
-  background-color: var(--offWhite);
+  background-color: var(--black);
+  justify-content: center;
 }
 
 .spinner-frame {
@@ -103,6 +99,7 @@ body {
   width: 60px;
   height: 300px;
   border-radius: 5px;
+  background-color: var(--offWhite);
   overflow: hidden;
 }
 
@@ -166,7 +163,7 @@ body {
 }
 
 #guess-count {
-  align-self:flex-start;
+  align-self: flex-start;
   font-size: 30px;
   color:var(--offWhite);
 }
@@ -188,14 +185,13 @@ body {
   font-family: inherit;
   font-weight: bold;
   font-size: 17px;
-  padding: 0px;
   border: 1px solid var(--midGrey);
   height: 46px;
+  width: 0;
   cursor: pointer;
   background-color: var(--midGrey);
   color: var(--offWhite);
   flex-grow: 1;
-  width: 0;
   text-transform: uppercase;
   margin-right: 4px;
   border-radius: 4px;
