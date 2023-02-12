@@ -50,6 +50,23 @@ export class Spinner {
             this.mouseup(e, this)
         })
 
+        this.parent.addEventListener("touchstart", (e) => {
+            e.preventDefault()
+            this.mousedown(e, this)
+        })
+        this.parent.addEventListener("touchmove", (e) => {
+            e.preventDefault()
+            this.mousemove(e, this)
+        })
+        this.parent.addEventListener("touchend", (e) => {
+            e.preventDefault()
+            this.mouseup(e, this)
+        })
+        this.parent.addEventListener("touchcancel", (e) => {
+            e.preventDefault()
+            this.mouseup(e, this)
+        })
+
     }
 
     mousedown(event, inst) {
