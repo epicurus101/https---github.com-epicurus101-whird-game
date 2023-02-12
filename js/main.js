@@ -1,4 +1,4 @@
-import { uColours, keyboard, dictionary, derivatives } from './contents.js';
+import { uColours, keyboard, dictionary, derivatives, logic } from './contents.js';
 import { Spinner } from './Spinner.js';
 
 
@@ -52,6 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function populateControl(){
 
         let puzzle = getFiveUniqueWords()
+
+        // logic.analyse(puzzle)
       //  console.log(puzzle)
         for (let i = 0; i < 5; i++) {
             var array =[]

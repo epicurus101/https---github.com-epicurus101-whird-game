@@ -5,6 +5,7 @@ import { keyboard } from './keyboard.js';
 import { dictionary } from './dictionary.js';
 import { derivatives } from './derivatives.js';
 import { gameManager } from './gameManager.js';
+import { logic } from './logic.js';
 
 
 
@@ -16,4 +17,6 @@ export {
     dictionary,
     derivatives,
     gameManager,
+    logic,
+    
 }

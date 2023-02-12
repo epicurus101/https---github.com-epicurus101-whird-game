@@ -16,6 +16,9 @@ export class Spinner {
     letterArray;
     foundSet;
     centre;
+    startY = 0;
+    inputAllowed = true;
+    touching = false;
 
     constructor(index) {
         this.index = index;
@@ -29,6 +32,49 @@ export class Spinner {
         }
         this.element.classList.add("instant-animation")
         this.element.style.transform = `translateY(-120px)`
+
+        this.parent.addEventListener("mousedown", (e) => {
+            e.preventDefault()
+            this.mousedown(e, this)
+        })
+        this.parent.addEventListener("mousemove", (e) => {
+            e.preventDefault()
+            this.mousemove(e, this)
+        })
+        this.parent.addEventListener("mouseup", (e) => {
+            e.preventDefault()
+            this.mouseup(e, this)
+        })
+        this.parent.addEventListener("mouseleave", (e) => {
+            e.preventDefault()
+            this.mouseup(e, this)
+        })
+
+    }
+
+    mousedown(event, inst) {
+        console.log(inst.inputAllowed, inst.touching)
+        if (!inst.inputAllowed) {return}
+        inst.startY = event.screenY
+        inst.touching = true // marks the start of the touch
+        inst.inputAllowed = false //forbid other inputs
+
+    }
+
+    mousemove(event, inst) {
+        if (!inst.touching) {return} // must be touching
+        var diff = inst.startY-event.screenY
+        diff = Math.min(  Math.max(-120,diff), 120)
+        inst.element.style.transform = `translateY(${-120-diff}px)`
+    }
+
+    mouseup(event, inst) {
+        if (!inst.touching) {return} // excludes stray moved touches being released
+        var diff = inst.startY-event.screenY
+        diff = Math.min(Math.max(-120,diff), 120)
+        let inputChange = Math.round(diff / 60)*-1
+        inst.animatedRotate(inputChange)
+        inst.touching = false //no longer touching!
     }
 
     newLetters(array) {
@@ -72,27 +118,34 @@ export class Spinner {
     }
 
     animatedRotate(amount) {
+        let style = window.getComputedStyle(this.element)
+        console.log(style.transitionDuration)
+        this.inputAllowed = false
         arrayRotate(this.letterArray, amount);
         this.element.classList.remove("instant-animation")
         this.element.classList.add("duration-animation")
         this.element.style.transform = `translateY(${-120 + 60 * amount}px)`
-        this.element.addEventListener("transitionend", (event) => this.transitionEndHandler(event))
+        let style2 = window.getComputedStyle(this.element)
+        console.log(style2.transitionDuration)
+        setTimeout(() => {
+            this.transitionEndHandler()
+        }, 500);
     }
 
     transitionEndHandler() {
+        console.log("transition end")
         let spinner = this.element
         this.normalise()
-        spinner.removeEventListener("transitionend", this.transitionEndHandler)
         spinner.classList.remove("duration-animation")
         spinner.classList.add("instant-animation")
         // have we properly sorted this?
-
         for (let i = 0; i < Array.from(spinner.children).length; i++) {
             const element = Array.from(spinner.children)[i];
             element.classList.remove("duration-animation")
             element.classList.add("instant-animation")
         }
         spinner.style.transform = `translateY(-120px)`
+        this.inputAllowed = true;
     }
 
     normalise() {
