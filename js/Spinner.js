@@ -75,14 +75,14 @@ export class Spinner {
     mousedown(e, inst) {
         console.log(inst.inputAllowed, inst.touching)
         if (!inst.inputAllowed) {return}
-        inst.startY = e.screenY
+        inst.startY = parseInt(e.screenY)
         inst.touching = true // marks the start of the touch
         inst.inputAllowed = false //forbid other inputs
     }
 
     mousemove(e, inst) {
         if (!inst.touching) {return} // must be touching
-        var diff = inst.startY-e.screenY
+        var diff = inst.startY-parseInt(e.screenY)
         diff = Math.min(  Math.max(-120,diff), 120)
         inst.element.style.transform = `translateY(${-120-diff}px)`
         const event = new CustomEvent('spinnerTouch', {
