@@ -34,22 +34,21 @@ export class Spinner {
         this.element.style.transform = `translateY(-120px)`
 
         this.parent.addEventListener("mousedown", (e) => {
-            e.preventDefault()
+            // e.preventDefault()
             this.mousedown(e, this)
         })
         this.parent.addEventListener("mousemove", (e) => {
-            e.preventDefault()
+            // e.preventDefault()
             this.mousemove(e, this)
         })
         this.parent.addEventListener("mouseup", (e) => {
-            e.preventDefault()
+            // e.preventDefault()
             this.mouseup(e, this)
         })
         this.parent.addEventListener("mouseleave", (e) => {
-            e.preventDefault()
+            // e.preventDefault()
             this.mouseup(e, this)
         })
-
         this.parent.addEventListener("touchstart", (e) => {
             e.preventDefault()
             this.mousedown(e, this)
