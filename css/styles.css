@@ -162,7 +162,7 @@ body {
   /* Standard syntax */
 }
 
-#guess-count {
+#guess-count, #version-indicator {
   align-self: flex-start;
   font-size: 30px;
   color:var(--offWhite);
