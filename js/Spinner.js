@@ -75,12 +75,7 @@ export class Spinner {
         inst.touching = true // marks the start of the touch
         inst.inputAllowed = false //forbid other inputs
 
-        const event = new CustomEvent('spinnerTouch', {
-            detail: {
-                spinner: inst.index
-            }
-        });
-        document.dispatchEvent(event);
+
 
     }
 
@@ -89,6 +84,12 @@ export class Spinner {
         var diff = inst.startY-event.screenY
         diff = Math.min(  Math.max(-120,diff), 120)
         inst.element.style.transform = `translateY(${-120-diff}px)`
+        const event = new CustomEvent('spinnerTouch', {
+            detail: {
+                spinner: inst.index
+            }
+        });
+        document.dispatchEvent(event);
     }
 
     mouseup(event, inst) {
