@@ -68,12 +68,19 @@ export class Spinner {
 
     }
 
-    mousedown(event, inst) {
+    mousedown(e, inst) {
         console.log(inst.inputAllowed, inst.touching)
         if (!inst.inputAllowed) {return}
-        inst.startY = event.screenY
+        inst.startY = e.screenY
         inst.touching = true // marks the start of the touch
         inst.inputAllowed = false //forbid other inputs
+
+        const event = new CustomEvent('spinnerTouch', {
+            detail: {
+                spinner: inst.index
+            }
+        });
+        document.dispatchEvent(event);
 
     }
 

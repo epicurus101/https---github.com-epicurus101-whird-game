@@ -186,6 +186,12 @@ document.addEventListener("DOMContentLoaded", () => {
         submitWord()
     })
 
+    document.addEventListener('spinnerTouch', (e) => {
+        let num = e.detail.spinner
+        current = num
+        highlightCurrent()
+    })
+
 
 })
 
