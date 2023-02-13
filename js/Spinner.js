@@ -34,55 +34,59 @@ export class Spinner {
         this.element.style.transform = `translateY(-120px)`
 
         this.parent.addEventListener("mousedown", (e) => {
-            // e.preventDefault()
-            this.mousedown(e, this)
+            let yPos = e.screenY
+            this.mousedown(yPos, this)
         })
         this.parent.addEventListener("mousemove", (e) => {
-            // e.preventDefault()
-            this.mousemove(e, this)
+            let yPos = e.screenY
+            this.mousemove(yPos, this)
         })
         this.parent.addEventListener("mouseup", (e) => {
-            // e.preventDefault()
-            this.mouseup(e, this)
+            let yPos = e.screenY
+            this.mouseup(yPos, this)
         })
         this.parent.addEventListener("mouseleave", (e) => {
-            // e.preventDefault()
-            this.mouseup(e, this)
+            let yPos = e.screenY
+            this.mouseup(yPos, this)
         })
         this.parent.addEventListener("touchstart", (e) => {
             e.stopPropagation()
             e.preventDefault()
-            this.mousedown(e, this)
+            let yPos = e.touches[0].pageY
+            this.mousedown(yPos, this)
         })
         this.parent.addEventListener("touchmove", (e) => {
             e.stopPropagation()
             e.preventDefault()
-            this.mousemove(e, this)
+            let yPos = e.touches[0].pageY
+            this.mousemove(yPos, this)
         })
         this.parent.addEventListener("touchend", (e) => {
             e.stopPropagation()
             e.preventDefault()
-            this.mouseup(e, this)
+            let yPos = e.touches[0].pageY
+            this.mouseup(yPos, this)
         })
         this.parent.addEventListener("touchcancel", (e) => {
             e.stopPropagation()
             e.preventDefault()
-            this.mouseup(e, this)
+            let yPos = e.touches[0].pageY
+            this.mouseup(yPos, this)
         })
 
     }
 
-    mousedown(e, inst) {
+    mousedown(yPos, inst) {
         console.log(inst.inputAllowed, inst.touching)
         if (!inst.inputAllowed) {return}
-        inst.startY = parseInt(e.screenY)
+        inst.startY = yPos
         inst.touching = true // marks the start of the touch
         inst.inputAllowed = false //forbid other inputs
     }
 
-    mousemove(e, inst) {
+    mousemove(yPos, inst) {
         if (!inst.touching) {return} // must be touching
-        var diff = inst.startY-parseInt(e.screenY)
+        var diff = inst.startY-yPos
         diff = Math.min(  Math.max(-120,diff), 120)
         inst.element.style.transform = `translateY(${-120-diff}px)`
         const event = new CustomEvent('spinnerTouch', {
@@ -93,9 +97,9 @@ export class Spinner {
         document.dispatchEvent(event);
     }
 
-    mouseup(event, inst) {
+    mouseup(yPos, inst) {
         if (!inst.touching) {return} // excludes stray moved touches being released
-        var diff = inst.startY-event.screenY
+        var diff = inst.startY-yPos
         diff = Math.min(Math.max(-120,diff), 120)
         let inputChange = Math.round(diff / 60)*-1
         inst.animatedRotate(inputChange)
