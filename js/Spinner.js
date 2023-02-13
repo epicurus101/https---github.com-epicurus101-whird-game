@@ -17,6 +17,7 @@ export class Spinner {
     foundSet;
     centre;
     startY = 0;
+    rememberedY = 0; //only used for touch, not mouse
     inputAllowed = true;
     touching = false;
 
@@ -53,25 +54,25 @@ export class Spinner {
             e.stopPropagation()
             e.preventDefault()
             let yPos = e.touches[0].pageY
+            this.rememberedY = yPos;
             this.mousedown(yPos, this)
         })
         this.parent.addEventListener("touchmove", (e) => {
             e.stopPropagation()
             e.preventDefault()
             let yPos = e.touches[0].pageY
+            this.rememberedY = yPos;
             this.mousemove(yPos, this)
         })
         this.parent.addEventListener("touchend", (e) => {
             e.stopPropagation()
             e.preventDefault()
-            let yPos = e.touches[0].pageY
-            this.mouseup(yPos, this)
+            this.mouseup(this.rememberedY, this)
         })
         this.parent.addEventListener("touchcancel", (e) => {
             e.stopPropagation()
             e.preventDefault()
-            let yPos = e.touches[0].pageY
-            this.mouseup(yPos, this)
+            this.mouseup(this.rememberedY, this)
         })
 
     }
