@@ -78,21 +78,21 @@ body {
 
 #game {
   width: 100%;
-  max-width: 500px;
+  /* max-width: 500px; */
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 
 }
-
+/* this is the whole container */
 .spinner-container {
   display: flex;
   flex-direction: row;
   background-color: var(--black);
   justify-content: center;
 }
-
+/* this is the outer rounded edge  */
 .spinner-frame {
   position: relative;
   border: 1px solid black;
@@ -103,6 +103,7 @@ body {
   overflow: hidden;
 }
 
+/* this is just the highlight box */
 .spinner-frame .box {
   position: absolute;
   width: 60px;
@@ -111,14 +112,17 @@ body {
   margin-bottom: auto;
   top: 0px;
   bottom: 0px;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  background-color: rgba(100, 100, 100, 0.2);
+  border-style: solid none;
+  border-color: black;
+  border-width: 1px;
+  background-color: rgba(100, 100, 100, 0.1);
+  z-index: 5;
 }
 
-.spinner-frame .selected {
+.spinner-frame .box.selected {
   border-width: 2px;
-  background-color: rgb(255, 238, 0);
+  border-color: white;
+  background-color: rgba(100, 100, 100, 0.2);
 }
 
 .spinner {
@@ -149,9 +153,13 @@ body {
   transition: color 0s, font-size 0s;
 }
 
-.spinner .found {
-  color:rgb(181, 159, 59);
+.spinner span .basic {
+  background-color: var(--offWhite);
 }
+
+/* .spinner .found {
+  color:rgb(181, 159, 59);
+} */
 
 .prevent-select {
   -webkit-user-select: none;
@@ -170,7 +178,9 @@ body {
 
 #keyboard-container {
   height: 150px;
+  width: 100%;
   max-width: 500px;
+  margin: 0px auto;
 }
 
 .keyboard-row {

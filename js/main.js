@@ -12,20 +12,25 @@ import { Spinner } from './Spinner.js';
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    initialisation()
-
     var current = 0
     var spinners = []
     var guesses = 0
 
-    for (let i = 0; i < 5; i++) {
-        const element = new Spinner(i)
-        spinners.push(element)    
+    initialisation()
+
+     async function initialisation(){
+        for (let i = 0; i < 5; i++) {
+            const element = new Spinner(i)
+            spinners.push(element)    
+        }
+        colourConform();
+        keyboard.initialise();
+        await dictionary.load();
+        await derivatives.load();
+
+        populateControl()
+        highlightCurrent()
     }
-
-    populateControl()
-
-    highlightCurrent()
 
     function getFiveUniqueWords() {
         var lines = []
@@ -89,13 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function highlightCurrent() {
+        console.log(spinners)
         for (let i = 0; i < spinners.length; i++) {
-            const spinner = spinners[i];
-            if (i == current) {
-                spinner.highlightBox(true)
-            } else {
-                spinner.highlightBox(false)
-            }
+            let spinner = spinners[i];
+            spinner.highlightBox(i == current)
         }
     }
 
@@ -128,6 +130,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function resetGame() {
         guesses = 0
+        Spinner.currentColour = 0
+        Spinner.penalties = 0
         document.getElementById("guess-count").textContent = "Guesses: 0"
         populateControl()
         updateAllSpinners()
@@ -147,12 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return true
     }
 
-    async function initialisation(){
-        colourConform();
-        keyboard.initialise();
-        await dictionary.load();
-        await derivatives.load();
-    }
+
 
     function colourConform() {
         var r = document.querySelector(':root');
@@ -189,6 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener('spinnerTouch', (e) => {
         let num = e.detail.spinner
         current = num
+        console.log("spinnerTouch received")
         highlightCurrent()
     })
 

@@ -8,10 +8,14 @@ function arrayRotate(arr, count) {
     arr.push(...arr.splice(0, (-count % len + len) % len))
 }
 
+
 export class Spinner {
+    static currentColour = 0
+    static penalty = 0
+    static spectrum = ["rgb(230,47,87)","rgb(230,52,103)","rgb(235,78,136)","rgb(236,96,126)","rgb(238,125,111)","rgb(240,150,99)","rgb(241,163,92)","rgb(243,178,86)","rgb(245,194,80)","rgb(246,208,75)","rgb(241,214,74)","rgb(223,216,77)","rgb(189,218,84)","rgb(157,219,91)","rgb(138,216,99)","rgb(130,201,117)","rgb(122,174,149)","rgb(115,143,185)","rgb(111,122,205)","rgb(113,106,211)","rgb(121,81,207)","rgb(130,53,202)","rgb(138,38,200)","rgb(150,52,204)","rgb(177,101,217)"]
     index;
     element;
-    parent;
+    parent; // this should be the frame
     highlightElement;
     letterArray;
     foundSet;
@@ -20,6 +24,7 @@ export class Spinner {
     rememberedY = 0; //only used for touch, not mouse
     inputAllowed = true;
     touching = false;
+    recordedColors = {}
 
     constructor(index) {
         this.index = index;
@@ -78,11 +83,16 @@ export class Spinner {
     }
 
     mousedown(yPos, inst) {
-        console.log(inst.inputAllowed, inst.touching)
         if (!inst.inputAllowed) {return}
         inst.startY = yPos
         inst.touching = true // marks the start of the touch
         inst.inputAllowed = false //forbid other inputs
+        const event = new CustomEvent('spinnerTouch', {
+            detail: {
+                spinner: inst.index
+            }
+        });
+        document.dispatchEvent(event);
     }
 
     mousemove(yPos, inst) {
@@ -90,12 +100,6 @@ export class Spinner {
         var diff = inst.startY-yPos
         diff = Math.min(  Math.max(-120,diff), 120)
         inst.element.style.transform = `translateY(${-120-diff}px)`
-        const event = new CustomEvent('spinnerTouch', {
-            detail: {
-                spinner: inst.index
-            }
-        });
-        document.dispatchEvent(event);
     }
 
     mouseup(yPos, inst) {
@@ -123,10 +127,13 @@ export class Spinner {
         for (let y = 0; y < children.length; y++) {
             let child = children[y]
             if (this.foundSet.has(child.textContent)) {
-                child.classList.add("found")
-                console.log("adding colour")
+                child.classList.remove("basic")
+                let num = this.recordedColors[child.textContent]
+                child.style.backgroundColor = Spinner.spectrum[num]
             } else {
-                child.classList.remove("found")
+                let cs = getComputedStyle(document.querySelector(':root'))
+                child.style.backgroundColor = cs.getPropertyValue('--offWhite')
+                child.classList.add("basic")
             }
         }
     }
@@ -136,7 +143,18 @@ export class Spinner {
     }
 
     addFound(str) {
-        this.foundSet.add(str)
+        if (!this.foundSet.has(str)) {
+            this.foundSet.add(str)
+            this.recordedColors[str] = Spinner.currentColour
+            if (Spinner.penalty > 0) {
+                Spinner.penalty -= 1
+            } else {
+                Spinner.currentColour += 1
+            }
+        } else {
+            Spinner.penalty += 2
+        }
+
     }
 
     highlightBox(bool) {
@@ -148,22 +166,17 @@ export class Spinner {
     }
 
     animatedRotate(amount) {
-        let style = window.getComputedStyle(this.element)
-        console.log(style.transitionDuration)
         this.inputAllowed = false
         arrayRotate(this.letterArray, amount);
         this.element.classList.remove("instant-animation")
         this.element.classList.add("duration-animation")
         this.element.style.transform = `translateY(${-120 + 60 * amount}px)`
-        let style2 = window.getComputedStyle(this.element)
-        console.log(style2.transitionDuration)
         setTimeout(() => {
             this.transitionEndHandler()
         }, 500);
     }
 
     transitionEndHandler() {
-        console.log("transition end")
         let spinner = this.element
         this.normalise()
         spinner.classList.remove("duration-animation")
@@ -189,12 +202,7 @@ export class Spinner {
             element.classList.remove("duration-animation")
             element.classList.add("instant-animation")
             element.textContent = str
-            if (this.foundSet.has(str)) {
-                element.classList.add("found")
-                console.log("adding property")
-            } else {
-                element.classList.remove("found")
-            }
+            this.instantColour()
         }
     }
 
